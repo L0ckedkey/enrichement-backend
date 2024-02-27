@@ -38,9 +38,6 @@ $ npm install
 # development
 $ npm run start
 
-#development hot reload enabled
-$ npm run start:dev-reload
-
 # watch mode
 $ npm run start:dev
 

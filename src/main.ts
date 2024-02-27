@@ -1,31 +1,24 @@
 import { NestFactory } from '@nestjs/core';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
-
-declare const module: any;
+import { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter()
+    new FastifyAdapter(),
   );
-
+  useContainer(app.select(AppModule), { fallbackOnErrors: true });
   const config = new DocumentBuilder()
-    .setTitle('Enrichment Backend')
-    .setDescription('Enrichment backend')
+    .setTitle('Cats example')
+    .setDescription('The cats API description')
     .setVersion('1.0')
-    .addTag('User')
+    .addTag('cats')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
+  app.enableCors()
   await app.listen(3000, '0.0.0.0');
-
-  if (module.hot) {
-    module.hot.accept();
-    module.hot.dispose(() => app.close());
-  }
-
 }
 bootstrap();
