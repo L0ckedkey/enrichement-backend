@@ -22,7 +22,7 @@ export class AnswerService {
 
   async findOne(id: number) {
     try {
-      const result = await this.httpService.findUniqueWithError(this.prisma.user.findUnique({
+      const result: any = await this.httpService.findUniqueWithError(this.prisma.user.findUnique({
         where: {
           id: id,
           deletedAt: null,
@@ -45,7 +45,7 @@ export class AnswerService {
 
   async findByCity(city: string){
     try {
-      const result = await this.httpService.findUniqueWithError(this.prisma.city.findUnique({
+      const result: any = await this.httpService.findUniqueWithError(this.prisma.city.findUnique({
         where: {
           name: city
         },
@@ -66,7 +66,7 @@ export class AnswerService {
 
   async findByProvince(province: string){
     try {
-      const result = await this.httpService.findUniqueWithError(this.prisma.province.findUnique({
+      const result: any = await this.httpService.findUniqueWithError(this.prisma.province.findUnique({
         where: {
           name: province
         },

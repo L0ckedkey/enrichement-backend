@@ -18,7 +18,7 @@ export class ProvinceService {
 
   async findCityByProvince(province: string) {
     try {
-      const result = await this.httpService.findUniqueWithError(this.prisma.province.findUnique({
+      const result: any = await this.httpService.findUniqueWithError(this.prisma.province.findUnique({
         where: {
           name: province
         },
