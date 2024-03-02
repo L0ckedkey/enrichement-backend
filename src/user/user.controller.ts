@@ -1,21 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
+import { FastifyReply } from 'fastify';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('login')
-  login(@Body() loginUserDto: LoginUserDto) {
-    return this.userService.login(loginUserDto);
+  login(@Body() loginUserDto: LoginUserDto, @Res({ passthrough: true }) response: FastifyReply) {
+    return this.userService.login(loginUserDto, response);
   }
 
   @Post('register')
-  register(@Body()  createUserDto: CreateUserDto) {
-    return this.userService.register(createUserDto);
+  register(@Body()  createUserDto: CreateUserDto, @Res({ passthrough: true }) response: FastifyReply) {
+    return this.userService.register(createUserDto, response);
+  }
+
+  @Get('')
+  findAll() {
+    return this.userService.findAll();
   }
 
   @Get(':id')
