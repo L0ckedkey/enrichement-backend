@@ -20,6 +20,34 @@ export class AnswerService {
     }
   }
 
+  async findAll(){
+    try {
+      return await this.prisma.answer.findMany({
+        select: {
+          answer: true,
+          city_reference: {
+            select: {
+              name: true,
+              Province_reference: {
+                select: {
+                  name: true,
+                }
+              }
+            }
+          },
+          user_reference: {
+            select: {
+              first_name: true,
+              last_name: true
+            }
+          }
+        }
+      })
+    } catch (error) {
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
   async findOne(id: number) {
     try {
       const result: any = await this.httpService.findUniqueWithError(this.prisma.user.findUnique({

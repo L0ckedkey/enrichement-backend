@@ -15,12 +15,18 @@ async function bootstrap() {
   });
   app.enableCors()
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
-  const config = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The iei API description')
-    .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  if(process.env.MODE != 'production'){
+    const config = new DocumentBuilder()
+      .setTitle('Cats example')
+      .setDescription('The iei API description')
+      .addTag('user')
+      .addTag('answer')
+      .addTag('province')
+      .addTag('user')
+      .build();
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup('api', app, document);
+  }
   
   await app.listen(3000,'0.0.0.0');
 }
