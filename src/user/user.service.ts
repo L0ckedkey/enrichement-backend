@@ -16,6 +16,7 @@ export class UserService {
 
   async decodeToken(token: string) {
     try {
+      console.log('here')
       const decoded = await this.jwtService.verify(token);
       return decoded;
     } catch (error) {
@@ -40,13 +41,12 @@ export class UserService {
 
       const payload = { id: result.id, first_name: result.first_name, last_name: result.last_name };
 
-      const expirationTime = new Date();
-      expirationTime.setTime(expirationTime.getTime() + 3 * 60 * 60 * 1000); // Add 3 hours in milliseconds
-      response.setCookie('auth', await this.jwtService.signAsync(payload), {path: '/', expires: expirationTime })
-
-      return this.httpService.returnHTTPOK(this.tableName, 'register')
+      return  {
+        code : 200,
+        token: await this.jwtService.signAsync(payload),
+        message: 'register success'
+      }
     } catch (error) {
-      console.log(error)
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }
@@ -60,16 +60,12 @@ export class UserService {
       }
 
       const payload = { id: user.id, first_name: user.first_name, last_name: user.last_name };
-      const expirationTime = new Date();
-      expirationTime.setTime(expirationTime.getTime() + 3 * 60 * 60 * 1000); // Add 3 hours in milliseconds
-      response.setCookie('auth', await this.jwtService.signAsync(payload), {path: '/', expires: expirationTime })
-
-      // return  {
-      //   code : 200,
-      //   token: await this.jwtService.signAsync(payload),
-      //   message: 'login success'
-      // }
-      return this.httpService.returnHTTPOK(this.tableName, 'login')
+      
+      return  {
+        code : 200,
+        token: await this.jwtService.signAsync(payload),
+        message: 'login success'
+      }
     } catch (error) {
       console.log(error)
       return this.httpService.returnInternalServerError(this.tableName)

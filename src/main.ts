@@ -15,8 +15,7 @@ async function bootstrap() {
     secret: process.env.COOKIE_SECRET, // for cookies signature
   });
   app.enableCors({
-    origin: "*",
-    credentials: true
+    origin: "*"
   })
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   if(process.env.MODE != 'production'){
