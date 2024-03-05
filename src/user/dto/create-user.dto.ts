@@ -37,4 +37,7 @@ export class CreateUserDto {
     @ApiProperty({ example: 'password123', description: 'Password of the user' })
     @IsNotEmpty()
     password: string;
+
+    @ApiProperty({  description: 'Date of birth of the user' })
+    dob: string;
 }

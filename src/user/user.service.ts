@@ -14,20 +14,39 @@ export class UserService {
   tableName: string = 'user'
   constructor(private readonly prisma: PrismaService, private readonly httpService: HttpService, private readonly jwtService: JwtService){}
 
+  async decodeToken(token: string) {
+    try {
+      console.log('here')
+      const decoded = await this.jwtService.verify(token);
+      return decoded;
+    } catch (error) {
+      throw new Error('Invalid token');
+    }
+  }
+
   async register(createUserDto: CreateUserDto, response: FastifyReply) {
     try {
       createUserDto.password = await bcrypt.hash(createUserDto.password, process.env.SALT);
-      const result = await this.prisma.user.create({data: createUserDto})
+      const result = await this.prisma.user.create({
+        data: {
+          company: createUserDto.company,
+          dob: new Date(createUserDto.dob),
+          email: createUserDto.email,
+          first_name: createUserDto.first_name,
+          last_name: createUserDto.last_name,
+          password: createUserDto.password,
+          phone_number: createUserDto.phone_number,
+          gender: createUserDto.gender
+      }})
 
-      const payload = { sub: result.id, firt_name: result.first_name, last_name: result.last_name };
+      const payload = { id: result.id, first_name: result.first_name, last_name: result.last_name };
 
-      const expirationTime = new Date();
-      expirationTime.setTime(expirationTime.getDate() * 1);
-      
-      response.setCookie('auth',  await this.jwtService.signAsync(payload), { expires: expirationTime })
-      return this.httpService.returnHTTPOK(this.tableName, 'register')
+      return  {
+        code : 200,
+        token: await this.jwtService.signAsync(payload),
+        message: 'register success'
+      }
     } catch (error) {
-      console.log(error)
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }
@@ -40,14 +59,15 @@ export class UserService {
         return this.httpService.forbiddenAccess()
       }
 
-      const payload = { sub: user.id, firt_name: user.first_name, last_name: user.last_name };
-
-      const expirationTime = new Date();
-      expirationTime.setTime(expirationTime.getDate() * 1);
+      const payload = { id: user.id, first_name: user.first_name, last_name: user.last_name };
       
-      response.setCookie('auth',  await this.jwtService.signAsync(payload), { expires: expirationTime })
-      return this.httpService.returnHTTPOK(this.tableName, 'login')
+      return  {
+        code : 200,
+        token: await this.jwtService.signAsync(payload),
+        message: 'login success'
+      }
     } catch (error) {
+      console.log(error)
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }
@@ -79,9 +99,23 @@ export class UserService {
 
   async findAll(){
     try {
-      return await this.prisma.user.findMany();
+      return await this.prisma.user.findMany({
+        where: {
+          deletedAt: null
+        },
+        select: {
+          id: true,
+          banned: true,
+          company: true,
+          email: true,
+          first_name: true,
+          last_name: true,
+          gender: true,
+          phone_number: true
+      }
+      });
     } catch (error) {
-      console.log(error)
+      this.httpService.returnInternalServerError(this.tableName)
     }
   }
 

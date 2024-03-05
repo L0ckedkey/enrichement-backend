@@ -19,6 +19,7 @@ model User {
   last_name String
   banned Boolean @default(false)
   phone_number String?
+  dob DateTime
   gender String?
   company String
   email String @unique()
@@ -35,6 +36,7 @@ model User {
 model Country{
   id Int @default(autoincrement()) @id
   name String @unique()
+  deletedAt DateTime?
 
   provinces Province[]
 
@@ -45,6 +47,7 @@ model Province{
   id Int @default(autoincrement()) @id
   country_id Int
   name String @unique()
+  deletedAt DateTime?
 
   Country_reference Country @relation(fields: [country_id], references: [id])
   
@@ -57,6 +60,7 @@ model City{
   id Int @default(autoincrement()) @id
   province_id Int
   name String @unique()
+  deletedAt DateTime?
 
   Province_reference Province @relation(fields: [province_id], references: [id])
 
@@ -70,6 +74,8 @@ model Answer {
   user_id Int
   city_id Int
   answer  String
+  profile String
+  createdAt DateTime @default(now())
 
   user_reference User @relation(fields: [user_id], references: [id])
   city_reference City @relation(fields: [city_id], references: [id])

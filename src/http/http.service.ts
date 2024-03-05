@@ -29,7 +29,7 @@ export class HttpService {
       }
     }else if(action.trim().toLowerCase() === "register"){
       return {
-        code: 200,
+        code: 201,
         message: 'succesfully create user'
       }
     }else{

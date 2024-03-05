@@ -15,6 +15,7 @@ export class AnswerService {
       await this.prisma.answer.create({
         data: createAnswerDto
       })
+      return this.httpService.returnHTTPOK(this.tableName, 'create')
     } catch (error) {
       return this.httpService.returnInternalServerError(this.tableName)
     }
@@ -25,6 +26,7 @@ export class AnswerService {
       return await this.prisma.answer.findMany({
         select: {
           answer: true,
+          createdAt: true,
           city_reference: {
             select: {
               name: true,
@@ -57,7 +59,7 @@ export class AnswerService {
           banned: false
         },
         select: {
-          id: true
+          id: true,
         }
       }), this.tableName)
 

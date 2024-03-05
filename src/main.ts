@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';
 import { useContainer } from 'class-validator';
 import fastifyCookie from '@fastify/cookie';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -13,16 +14,20 @@ async function bootstrap() {
   await app.register(fastifyCookie, {
     secret: process.env.COOKIE_SECRET, // for cookies signature
   });
-  app.enableCors()
+  app.enableCors({
+    origin: "*",
+    credentials: true
+  })
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
   if(process.env.MODE != 'production'){
     const config = new DocumentBuilder()
-      .setTitle('Cats example')
+      .setTitle('IEI')
       .setDescription('The iei API description')
       .addTag('user')
       .addTag('answer')
       .addTag('province')
       .addTag('user')
+      .addTag('city')
       .build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup('api', app, document);

@@ -8,9 +8,10 @@ import { PrismaModule } from './prisma/prisma.module';
 import { HttpService } from './http/http.service';
 import { APP_PIPE } from '@nestjs/core';
 import { IsExistValidator, IsUniqueValidator } from './validators/unique.validator';
+import { CityModule } from './city/city.module';
 
 @Module({
-  imports: [ProvinceModule, AnswerModule, UserModule, PrismaModule],
+  imports: [ProvinceModule, AnswerModule, UserModule, PrismaModule, CityModule],
   controllers: [AppController],
   providers: [AppService, HttpService, IsUniqueValidator, IsExistValidator,
     {

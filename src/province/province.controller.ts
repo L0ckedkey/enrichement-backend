@@ -16,4 +16,9 @@ export class ProvinceController {
   findCityByProvince(@Param('province') province: string) {
     return this.provinceService.findCityByProvince(province);
   }
+
+  @Get('/city-detail/:id')
+  findCityDetail(@Param('id') id: string) {
+    return this.provinceService.findCityByProvince(id);
+  }
 }

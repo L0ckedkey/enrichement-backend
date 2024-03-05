@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Query } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { FastifyReply } from 'fastify';
 import { ApiTags } from '@nestjs/swagger';
+import { Response } from 'express'
 
 @ApiTags('user')
 @Controller('user')
@@ -24,6 +25,11 @@ export class UserController {
   @Get('')
   findAll() {
     return this.userService.findAll();
+  }
+  
+  @Get('/decode')
+  decode(@Query('token') token: string) {
+    return this.userService.decodeToken(token);
   }
 
   @Get(':id')

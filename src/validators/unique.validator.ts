@@ -61,7 +61,7 @@ export class IsUniqueValidator implements ValidatorConstraintInterface {
   defaultMessage(args: ValidationArguments) {
     const params = args.constraints[0] as { table: string, column: string };
     const { column } = params;
-    console.log(params.table + " " + params.column )
+
     return column + ` must be unique.`;
   }
 }

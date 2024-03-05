@@ -20,7 +20,7 @@ export class ProvinceService {
     try {
       const result: any = await this.httpService.findUniqueWithError(this.prisma.province.findUnique({
         where: {
-          name: province
+          id : parseInt(province)
         },
         select: {
           id: true
@@ -30,6 +30,19 @@ export class ProvinceService {
       return await this.prisma.city.findMany({
         where: {
           province_id: result.id
+        }
+      })
+    } catch (error) {
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async findCityDetail(id: string) {
+    try {
+
+      return await this.prisma.city.findUnique({
+        where: {
+          id: parseInt(id)
         }
       })
     } catch (error) {

@@ -13,7 +13,7 @@ async function main() {
   })
 
   const seedAnswers = async() : Promise<void> => {
-    console.log('here')
+   
     const questionRanges = {
       1: [1, 2, 3, 4],
       2: Array.from({ length: 11 }, (_, i) => i + 1),
@@ -35,6 +35,7 @@ async function main() {
           answer: answersString,
           city_id: Math.floor(Math.random() * (33 - 1 + 1)) + 1,
           user_id: Math.floor(Math.random() * (2 - 1 + 1)) + 1,
+          profile: "1,2,3,1,1"
         }
       });
     }
@@ -147,7 +148,7 @@ async function main() {
       var id = 1;
 
       for (const city of cities) {
-          console.log(city.name)
+
           await prisma.city.upsert({
             where: { id: id },
             update: {},
@@ -224,7 +225,8 @@ async function main() {
           first_name: "Christopher",
           last_name: "Limawan",
           email: "christopher@gmail.com",
-          password: "test"
+          password: "test",
+          dob: new Date('1999-01-05')
       }
     })
 
@@ -237,7 +239,8 @@ async function main() {
           first_name: "Jevon",
           last_name: "Danaristo",
           email: "jevon@gmail.com",
-          password: "test"
+          password: "test",
+          dob: new Date('2000-01-05')
       }
     })
 
