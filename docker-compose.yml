@@ -6,9 +6,6 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
-      # Only will build development stage from our dockerfile
-    volumes:
-      - .:/usr/src/app
     env_file:
       - .env
     networks:
@@ -39,7 +36,7 @@ services:
     container_name: dev_iei-pma
     image: 'phpmyadmin/phpmyadmin'
     ports:
-      - 8081:80
+      - 8082:80
     networks:
       - default
     environment:
