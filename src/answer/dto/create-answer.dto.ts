@@ -20,4 +20,8 @@ export class CreateAnswerDto {
     @ApiProperty({ example: 'Some answer', description: 'The user\'s answer' })
     @IsString({ message: 'Profile must be a string' })
     profile: string;
+
+    @ApiProperty({ example: 1, description: 'total of answer' })
+    @IsInt()
+    total: number;
 }

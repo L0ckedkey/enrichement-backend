@@ -35,7 +35,8 @@ async function main() {
           answer: answersString,
           city_id: Math.floor(Math.random() * (33 - 1 + 1)) + 1,
           user_id: Math.floor(Math.random() * (2 - 1 + 1)) + 1,
-          profile: "1,2,3,1,1"
+          profile: "1,2,3,1,1",
+          total:  Math.floor(Math.random() * (60 - 1 + 1)) + 1
         }
       });
     }

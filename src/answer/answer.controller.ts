@@ -14,10 +14,27 @@ export class AnswerController {
     return this.answerService.create(createAnswerDto);
   }
 
+
+  @Get('sorted')
+  sorted(){
+    return this.answerService.sorted()
+  }
+
+  @Get('average/:provinceId')
+  average(@Param('provinceId') province: string){
+    return this.answerService.average(+province)
+  }
+
   @Get()
   findAll(){
     return this.answerService.findAll();
   }
+
+  @Get(':id')
+  findOne(@Param('id') id: string){
+    return this.answerService.findOneAns(+id);
+  }
+
 
   @Get('/user/:id')
   findAnswer(@Param('id') id: string) {
@@ -26,7 +43,7 @@ export class AnswerController {
 
   @Get('/city/:city')
   findAnswerByCity(@Param('city') city: string) {
-    return this.answerService.findByCity(city);
+    return this.answerService.findByCity(+city);
   }
 
   @Get('/province/:province')

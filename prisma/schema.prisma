@@ -73,6 +73,7 @@ model Answer {
   id      Int    @id @default(autoincrement())
   user_id Int
   city_id Int
+  total Int
   answer  String
   profile String
   createdAt DateTime @default(now())

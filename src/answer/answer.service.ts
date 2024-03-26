@@ -17,6 +17,69 @@ export class AnswerService {
       })
       return this.httpService.returnHTTPOK(this.tableName, 'create')
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async sorted(){
+    try {
+      const lowest = await this.prisma.answer.findMany({
+        orderBy: {
+          total: 'asc'
+        },
+        take: 1 
+      })
+
+      const highest = await this.prisma.answer.findMany({
+        orderBy: {
+          total: 'desc'
+        },
+        take: 1 
+      })
+      
+      return {
+        lowest, highest
+      }
+      
+    } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async average(province: number){
+    try {
+        const provinceResult = await this.httpService.findUniqueWithError(this.prisma.province.findUnique({
+          where: {
+              id: province
+          },
+          select: {
+              id: true
+          }
+      }), 'province');
+      
+      const average = await this.prisma.answer.aggregate({
+        _avg: {
+            total: true
+        },
+        where: {
+            city_reference: {
+              province_id: provinceResult.id
+            }
+          }
+        })
+
+      return average._avg.total == null ? 0 : average._avg.total
+      
+    } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }
@@ -29,6 +92,7 @@ export class AnswerService {
           createdAt: true,
           city_reference: {
             select: {
+              province_id: true,
               name: true,
               Province_reference: {
                 select: {
@@ -46,6 +110,9 @@ export class AnswerService {
         }
       })
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }
@@ -69,15 +136,43 @@ export class AnswerService {
         }
       })
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)      
     }
   }
 
-  async findByCity(city: string){
+  async findOneAns(id: number){
+    try {
+      const result: any = await this.httpService.findUniqueWithError(this.prisma.answer.findUnique({
+        where: {
+          id: id
+        },
+        select: {
+          id: true,
+          answer: true
+        }
+      }), this.tableName)
+   
+      return this.prisma.answer.findMany({
+        where:  {
+          id: result.id
+        }
+      })
+    } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)      
+    }
+  }
+
+  async findByCity(city: number){
     try {
       const result: any = await this.httpService.findUniqueWithError(this.prisma.city.findUnique({
         where: {
-          name: city
+          id: city
         },
         select: {
           id: true
@@ -90,6 +185,9 @@ export class AnswerService {
         }
       })
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)      
     }
   }
@@ -113,6 +211,9 @@ export class AnswerService {
         }
       })
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)      
     }
   }
