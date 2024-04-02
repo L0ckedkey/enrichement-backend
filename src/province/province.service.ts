@@ -12,6 +12,9 @@ export class ProvinceService {
     try {
       return await this.prisma.province.findMany()
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }
@@ -33,6 +36,9 @@ export class ProvinceService {
         }
       })
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }
@@ -46,6 +52,9 @@ export class ProvinceService {
         }
       })
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }

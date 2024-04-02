@@ -21,6 +21,9 @@ export class CityService {
         }
       })
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }

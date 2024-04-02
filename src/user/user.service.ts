@@ -7,12 +7,13 @@ import { LoginUserDto } from './dto/login-user.dto';
 import { HttpService } from 'src/http/http.service';
 import { FastifyReply } from 'fastify';
 import { JwtService } from '@nestjs/jwt';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UserService {
   
   tableName: string = 'user'
-  constructor(private readonly prisma: PrismaService, private readonly httpService: HttpService, private readonly jwtService: JwtService){}
+  constructor(private readonly prisma: PrismaService, private readonly httpService: HttpService, private readonly jwtService: JwtService, private readonly mailerService: MailerService){}
 
   async decodeToken(token: string) {
     try {
@@ -20,6 +21,9 @@ export class UserService {
       const decoded = await this.jwtService.verify(token);
       return decoded;
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       throw new Error('Invalid token');
     }
   }
@@ -40,13 +44,16 @@ export class UserService {
       }})
 
       const payload = { id: result.id, first_name: result.first_name, last_name: result.last_name };
-
+      await this.sendUserConfirmation(result.id, result.email)
       return  {
         code : 200,
         token: await this.jwtService.signAsync(payload),
         message: 'register success'
       }
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }
@@ -67,8 +74,58 @@ export class UserService {
         message: 'login success'
       }
     } catch (error) {
-      console.log(error)
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async sendUserConfirmation(token: number, email: string) {
+    try {
+      const url = `api.entreindex.com/user/confirm/${token}`;
+
+      await this.mailerService.sendMail({
+        to: email,
+        // from: '"Support Team" <support@example.com>', // override default from
+        subject: 'Welcome to Nice App! Confirm your Email',
+        template: './confirmation',
+        context: { // ✏️ filling curly brackets with content
+          name: 'test',
+          url,
+        },
+      });
+    } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async confirm(id: string){
+    try {
+      const result = await this.httpService.findUniqueWithError(this.prisma.user.findUnique({
+        where: {
+          id: +id
+        }
+      }),this.tableName)
+
+      await this.prisma.user.update({
+        where: {
+          id: +id
+        },
+        data: {
+          isBan: false
+        }
+      })
+
+      return this.httpService.returnHTTPOK(this.tableName, 'update')
+    } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.sendError(error, this.tableName) 
     }
   }
 
@@ -93,6 +150,9 @@ export class UserService {
 
       return data;
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.sendError(error.message, this.tableName);
     }
   }
@@ -115,6 +175,9 @@ export class UserService {
       }
       });
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       this.httpService.returnInternalServerError(this.tableName)
     }
   }
@@ -132,7 +195,10 @@ export class UserService {
 
       return this.httpService.returnHTTPOK(this.tableName, 'update')
     } catch (error) {
-      
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
     }
 
   }
@@ -150,6 +216,9 @@ export class UserService {
 
       return this.httpService.returnHTTPOK(this.tableName, 'delete')
     } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }

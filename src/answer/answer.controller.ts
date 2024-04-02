@@ -25,6 +25,26 @@ export class AnswerController {
     return this.answerService.average(+province)
   }
 
+  @Get('highest-average-province')
+  highestAverage(){
+    return this.answerService.highestAverageProvince()
+  }
+
+  @Get('highest-average-city')
+  highestAverageCity(){
+    return this.answerService.highestAverageCity()
+  }
+
+  // @Get('highest-lowest-province')
+  // highestLowestProvince(){
+  //   return this.answerService.highesLowestProvince()
+  // }
+
+  // @Get('highest-lowest-city')
+  // highestLowestCity(){
+  //   return this.answerService.highesLowestCity()
+  // }
+
   @Get()
   findAll(){
     return this.answerService.findAll();

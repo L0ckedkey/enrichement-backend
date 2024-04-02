@@ -84,6 +84,184 @@ export class AnswerService {
     }
   }
 
+  async highestAverageProvince(){
+    try {
+      const average = await this.prisma.$queryRaw`SELECT AVG(answers.total) as avg, p.name FROM answers JOIN cities c ON c.id = answers.city_id JOIN provinces p ON p.id = c.province_id GROUP BY c.province_id  ORDER BY AVG(answers.total) desc LIMIT 5`
+
+      return average
+      
+    } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async highestAverageCity(){
+    let final_result = []
+    try {
+      const average = await this.prisma.answer.groupBy({
+        by: ['city_id'],
+        take: 5,
+        _avg: {
+            total: true
+        },
+        orderBy: {
+          _avg: {
+            total: 'desc'
+          }
+        }
+      })
+
+      for (const result of average) {
+        const city_name = await this.prisma.city.findUnique({
+          select: {
+            name: true
+          },
+          where: {
+            id: result.city_id
+          }
+        })
+        final_result.push({
+          city_name: city_name.name,
+          avg: result._avg.total
+        })
+      }
+
+      return final_result
+      
+    } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async highesLowestProvince(){
+    let final_result = []
+    try {
+      let highest = await this.prisma.$queryRaw`select max(a.total) as max from answers a JOIN cities c ON c.id = a.city_id JOIN provinces p ON p.id = c.province_id`
+      let lowest = await this.prisma.$queryRaw`select min(a.total) as min from answers a JOIN cities c ON c.id = a.city_id JOIN provinces p ON p.id = c.province_id`
+
+
+      const res_high = await this.prisma.answer.findMany({
+        where: {
+          total: highest[0].max
+        },
+        select: {
+          city_reference: {
+            include: {
+              Province_reference: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          }
+        }
+      })
+
+      const res_low = await this.prisma.answer.findMany({
+        where: {
+          total: lowest[0].min
+        },
+        select: {
+          city_reference: {
+            include: {
+              Province_reference: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          }
+        }
+      })
+
+      return {
+        res_high,
+        res_low
+      }
+      
+    } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async highesLowestCity(){
+    let final_result = []
+    try {
+      let highest = await this.prisma.answer.findMany({
+        take: 1,
+        orderBy: {
+          total:'desc'
+        },
+        select: {
+          total: true
+        }
+      })
+      let lowest = await this.prisma.answer.findMany({
+        take: 1,
+        orderBy: {
+          total:'asc'
+        },
+        select: {
+          total: true
+        }
+      })
+
+      const res_high = await this.prisma.answer.findMany({
+        where: {
+          total: highest[0].total
+        },
+        select: {
+          city_reference: {
+            include: {
+              Province_reference: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          }
+        }
+      })
+
+      const res_low = await this.prisma.answer.findMany({
+        where: {
+          total: lowest[0].total
+        },
+        select: {
+          city_reference: {
+            include: {
+              Province_reference: {
+                select: {
+                  name: true
+                }
+              }
+            }
+          }
+        }
+      })
+
+      return {
+        res_high,
+        res_low
+      }
+      
+    } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
   async findAll(){
     try {
       return await this.prisma.answer.findMany({

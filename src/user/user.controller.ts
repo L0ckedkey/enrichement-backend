@@ -1,16 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Res, Query, Redirect } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserDto } from './dto/login-user.dto';
 import { FastifyReply } from 'fastify';
 import { ApiTags } from '@nestjs/swagger';
-import { Response } from 'express'
+import { MailerService } from '@nestjs-modules/mailer';
 
 @ApiTags('user')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService, private readonly mailerService: MailerService) {}
 
   @Post('login')
   login(@Body() loginUserDto: LoginUserDto, @Res({ passthrough: true }) response: FastifyReply) {
@@ -45,5 +45,15 @@ export class UserController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userService.remove(+id);
+  }
+
+  // @Post('email')
+  // email(){
+  //   return this.userService.sendUserConfirmation(6)
+  // }
+
+  @Get('confirm/:id')
+  confirm(@Param('id') id: string){
+    return this.userService.confirm(id)
   }
 }
