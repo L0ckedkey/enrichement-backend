@@ -1,6 +1,9 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,7 +14,73 @@ datasource db {
 }
 
 model User {
-  id    String  @default(uuid()) @id
-  email String  @unique
-  name  String
+  id Int @default(autoincrement()) @id
+  first_name String
+  last_name String
+  banned Boolean @default(false)
+  phone_number String?
+  dob DateTime
+  gender String?
+  company String
+  email String @unique()
+  password String
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  deletedAt DateTime?
+  isBan Boolean @default(true)
+
+  Answers Answer[]
+
+  @@map("users")
+}
+
+model Country{
+  id Int @default(autoincrement()) @id
+  name String @unique()
+  deletedAt DateTime?
+
+  provinces Province[]
+
+  @@map("countries")
+}
+
+model Province{
+  id Int @default(autoincrement()) @id
+  country_id Int
+  name String @unique()
+  deletedAt DateTime?
+
+  Country_reference Country @relation(fields: [country_id], references: [id])
+  
+  Cities City[]
+
+  @@map("provinces")
+}
+
+model City{
+  id Int @default(autoincrement()) @id
+  province_id Int
+  name String @unique()
+  deletedAt DateTime?
+
+  Province_reference Province @relation(fields: [province_id], references: [id])
+
+  Answers Answer[]
+
+  @@map("cities")
+}
+
+model Answer {
+  id      Int    @id @default(autoincrement())
+  user_id Int
+  city_id Int
+  total Int
+  answer  String
+  profile String
+  createdAt DateTime @default(now())
+
+  user_reference User @relation(fields: [user_id], references: [id])
+  city_reference City @relation(fields: [city_id], references: [id])
+
+  @@map("answers")
 }

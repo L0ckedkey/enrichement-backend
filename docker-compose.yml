@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: dev_iei-app
+    build:
+      dockerfile: Dockerfile
+      context: .
+    env_file:
+      - .env
+    networks:
+      - default
+    restart: unless-stopped
+    depends_on:
+      - db
+    # Run a command against the development stage of the image
+    command: sh -c "sleep 15 && ls && npx prisma migrate dev && npx prisma db seed && npm run start:dev"
+    ports:
+      - 3002:3000
+
+  db:
+    container_name: dev_iei-db
+    image: 'mysql:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: dev_iei_backend
+      MYSQL_USER: dev_iei_backend
+      MYSQL_PASSWORD: dev_iei_backend
+      MYSQL_DATABASE: iei
+    networks:
+      - default
+    restart: unless-stopped
+    ports:
+      - 3307:3306
+
+  pma:
+    container_name: dev_iei-pma
+    image: 'phpmyadmin/phpmyadmin'
+    ports:
+      - 8082:80
+    networks:
+      - default
+    environment:
+      PMA_HOST: db
+    restart: unless-stopped
+    depends_on:
+      - db
+
+networks:
+  default:
+    name: dev_iei_backend_network
+    driver: bridge
