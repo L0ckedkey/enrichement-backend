@@ -81,18 +81,15 @@ export class UserService {
     }
   }
 
-  async sendUserConfirmation(token: number, email: string) {
+  async sendUserConfirmation(id: number, email: string) {
     try {
-      const url = `api.entreindex.com/user/confirm/${token}`;
-
       await this.mailerService.sendMail({
         to: email,
-        // from: '"Support Team" <support@example.com>', // override default from
-        subject: 'Welcome to Nice App! Confirm your Email',
+        subject: 'Welcome to EntreIndex! Confirm your Email',
         template: './confirmation',
-        context: { // ✏️ filling curly brackets with content
-          name: 'test',
-          url,
+        context: { 
+          name: 'Email confirmation',
+          id,
         },
       });
     } catch (error) {
@@ -171,7 +168,8 @@ export class UserService {
           first_name: true,
           last_name: true,
           gender: true,
-          phone_number: true
+          phone_number: true,
+          isBan: true
       }
       });
     } catch (error) {
