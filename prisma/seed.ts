@@ -198,7 +198,7 @@ async function main() {
           { country_id: 1, name: 'Sulawesi_Tengah' },
           { country_id: 1, name: 'Sulawesi_Tenggara' },
           { country_id: 1, name: 'Sulawesi_Utara'  },
-          { country_id: 1, name: 'Sulawesi_Barat' },
+          { country_id: 1, name: 'Sumatera_Barat' },
           { country_id: 1, name: 'Sumatera_Selatan'  },
           { country_id: 1, name: 'Sumatera_Utara' },
       ];
@@ -206,7 +206,9 @@ async function main() {
       for (const province of provinces) {
         await prisma.province.upsert({
           where: { id: id },
-          update: {},
+          update: {
+            name: province.name
+          },
           create: {
             id: id,
             country_id: province.country_id,
