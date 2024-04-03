@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
@@ -8,6 +8,7 @@ import { HttpService } from 'src/http/http.service';
 import { FastifyReply } from 'fastify';
 import { JwtService } from '@nestjs/jwt';
 import { MailerService } from '@nestjs-modules/mailer';
+import e from 'express';
 
 @Injectable()
 export class UserService {
@@ -63,10 +64,7 @@ export class UserService {
       const user = await this.prisma.user.findUnique({ where: { email: loginUserDto.email } });
     
       if (!await bcrypt.compare(loginUserDto.password, user.password) || user.isBan) {
-        return {
-          code: 403,
-          message: "Forbidden Access, please make sure email is validated"
-        }
+        response.status(403).send({ code: 403, message: ['Forbidden, make sure email is valid','Forbidden'] });
       }
 
       const payload = { id: user.id, first_name: user.first_name, last_name: user.last_name };
@@ -80,6 +78,7 @@ export class UserService {
       if(process.env.MODE == 'development'){
         console.log(error)
       }
+
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }

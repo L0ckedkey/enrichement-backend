@@ -51,8 +51,8 @@ export class HttpService {
     throw new BadRequestException(desc);
   }
 
-  forbiddenAccess(){
-    throw new HttpException('Forbidden', HttpStatus.FORBIDDEN)
+  forbiddenAccess(desc: string){
+    throw new HttpException(desc, HttpStatus.FORBIDDEN)
   }
 
   returnInternalServerError(tableName: string){
