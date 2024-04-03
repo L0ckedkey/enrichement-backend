@@ -43,11 +43,11 @@ export class UserService {
           gender: createUserDto.gender
       }})
 
-      const payload = { id: result.id, first_name: result.first_name, last_name: result.last_name };
+      // const payload = { id: result.id, first_name: result.first_name, last_name: result.last_name };
       await this.sendUserConfirmation(result.id, result.email)
       return  {
         code : 200,
-        token: await this.jwtService.signAsync(payload),
+        // token: await this.jwtService.signAsync(payload),
         message: 'register success'
       }
     } catch (error) {
@@ -62,8 +62,11 @@ export class UserService {
     try {
       const user = await this.prisma.user.findUnique({ where: { email: loginUserDto.email } });
     
-      if (!await bcrypt.compare(loginUserDto.password, user.password) || user.banned) {
-        return this.httpService.forbiddenAccess()
+      if (!await bcrypt.compare(loginUserDto.password, user.password) || user.isBan) {
+        return {
+          code: 403,
+          message: "Forbidden Access, please make sure email is validated"
+        }
       }
 
       const payload = { id: user.id, first_name: user.first_name, last_name: user.last_name };
