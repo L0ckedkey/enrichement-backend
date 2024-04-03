@@ -3,6 +3,7 @@ version: '3.9'
 services:
   api:
     container_name: dev_iei-app
+    image: iei_front
     build:
       dockerfile: Dockerfile
       context: .
@@ -20,7 +21,7 @@ services:
 
   db:
     container_name: dev_iei-db
-    image: 'mysql:latest'
+    image: 'iei_mysql'
     environment:
       MYSQL_ROOT_PASSWORD: dev_iei_backend
       MYSQL_USER: dev_iei_backend
@@ -34,7 +35,7 @@ services:
 
   pma:
     container_name: dev_iei-pma
-    image: 'phpmyadmin/phpmyadmin'
+    image: 'iei_pma'
     ports:
       - 8082:80
     networks:
