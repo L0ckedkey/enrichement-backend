@@ -12,35 +12,35 @@ async function main() {
       }
   })
 
-  const seedAnswers = async() : Promise<void> => {
+  // const seedAnswers = async() : Promise<void> => {
    
-    const questionRanges = {
-      1: [1, 2, 3, 4],
-      2: Array.from({ length: 11 }, (_, i) => i + 1),
-      3: [1, 2, 3],
-      4: [1, 2, 3, 4]
-    };
+  //   const questionRanges = {
+  //     1: [1, 2, 3, 4],
+  //     2: Array.from({ length: 11 }, (_, i) => i + 1),
+  //     3: [1, 2, 3],
+  //     4: [1, 2, 3, 4]
+  //   };
   
-    for (let i = 5; i <= 29; i++) {
-      questionRanges[i] = [1, 2, 3, 4];
-    }
+  //   for (let i = 5; i <= 29; i++) {
+  //     questionRanges[i] = [1, 2, 3, 4];
+  //   }
   
-    const numberOfAnswers = 50;
-    for (var j = 0; j < numberOfAnswers; j++) {
-      const answers = Array.from({ length: 29 }, (_, i) => randomChoice(questionRanges[i + 1]));
-      const answersString = answers.join(',');
-      await prisma.answer.create({
+  //   const numberOfAnswers = 50;
+  //   for (var j = 0; j < numberOfAnswers; j++) {
+  //     const answers = Array.from({ length: 29 }, (_, i) => randomChoice(questionRanges[i + 1]));
+  //     const answersString = answers.join(',');
+  //     await prisma.answer.create({
 
-        data: {
-          answer: answersString,
-          city_id: Math.floor(Math.random() * (33 - 1 + 1)) + 1,
-          user_id: Math.floor(Math.random() * (2 - 1 + 1)) + 1,
-          profile: "1,2,3,1,1",
-          total:  Math.floor(Math.random() * (60 - 1 + 1)) + 1
-        }
-      });
-    }
-  }
+  //       data: {
+  //         answer: answersString,
+  //         city_id: Math.floor(Math.random() * (33 - 1 + 1)) + 1,
+  //         user_id: Math.floor(Math.random() * (2 - 1 + 1)) + 1,
+  //         profile: "1,2,3,1,1",
+  //         total:  Math.floor(Math.random() * (60 - 1 + 1)) + 1
+  //       }
+  //     });
+  //   }
+  // }
 
 
   const upsertCities = async() => {
@@ -111,7 +111,6 @@ async function main() {
           { province_id: 22 , name: "Bima" },
           { province_id: 22 , name: "Mataram" },
           { province_id: 23 , name: "Kupang" },
-          { province_id: 24 , name: "Sorong" },
           { province_id: 25 , name: "Jayapura" },
           { province_id: 26 , name: "Dumai" },
           { province_id: 26 , name: "Pekanbaru" },
@@ -143,7 +142,47 @@ async function main() {
           { province_id: 33 , name: "Pematangsiantar" },
           { province_id: 33 , name: "Sibolga" },
           { province_id: 33 , name: "Tanjungbalai" },
-          { province_id: 33 , name: "Tebing Tinggi" }
+          { province_id: 33 , name: "Tebing Tinggi" },
+          { province_id: 34 , name: "Sorong" },
+          { province_id: 34 , name: "Manokwari" },
+          { province_id: 34 , name: "Fakfak" },
+          { province_id: 34 , name: "Sorong Selatan" },
+          { province_id: 34 , name: "Raja Ampat" },
+          { province_id: 34 , name: "Teluk Bintuni" },
+          { province_id: 34 , name: "Teluk Wondama" },
+          { province_id: 34 , name: "Kaimana" },
+          { province_id: 34 , name: "Tambrauw" },
+          { province_id: 34 , name: "Maybrat" },
+          { province_id: 34 , name: "Manokwari Selatan" },
+          { province_id: 34 , name: "Pegunungan Arfak" },
+          { province_id: 34 , name: "Kota Sorong" },
+          { province_id: 35 , name: "Deiyai" },
+          { province_id: 35 , name: "Dogiyai" },
+          { province_id: 35 , name: "Intan Jaya" },
+          { province_id: 35 , name: "Mimika" },
+          { province_id: 35 , name: "Nabire" },
+          { province_id: 35 , name: "Paniai" },
+          { province_id: 35 , name: "Puncak" },
+          { province_id: 35 , name: "Puncak Jaya" },
+          { province_id: 36 , name: "Jayawijaya" },
+          { province_id: 36 , name: "Lanny Jaya" },
+          { province_id: 36 , name: "Mamberamo Tengah" },
+          { province_id: 36 , name: "Nduga" },
+          { province_id: 36 , name: "Pegunungan Bintang" },
+          { province_id: 36 , name: "Tolikara" },
+          { province_id: 36 , name: "Yalimo" },
+          { province_id: 36 , name: "Yahukimo" },
+          { province_id: 37 , name: "Asmat" },
+          { province_id: 37 , name: "Boven Digoel" },
+          { province_id: 37 , name: "Mappi" },
+          { province_id: 37 , name: "Merauke" },
+          { province_id: 38 , name: "Majene" },
+          { province_id: 38 , name: "Mamasa" },
+          { province_id: 38 , name: "Mamuju" },
+          { province_id: 38 , name: "Mamuju Tengah" },
+          { province_id: 38 , name: "Pasangkayu" },
+          { province_id: 38 , name: "Polewali Mandar" },
+
       ]
 
       var id = 1;
@@ -201,6 +240,11 @@ async function main() {
           { country_id: 1, name: 'Sumatera_Barat' },
           { country_id: 1, name: 'Sumatera_Selatan'  },
           { country_id: 1, name: 'Sumatera_Utara' },
+          { country_id: 1, name: 'Papua_Barat' },
+          { country_id: 1, name: 'Papua_Tengah' },
+          { country_id: 1, name: 'Papua_Pegunungan' },
+          { country_id: 1, name: 'Papua_Selatan' },
+          { country_id: 1, name: 'Sulawesi_Barat' },
       ];
     
       for (const province of provinces) {
@@ -249,7 +293,7 @@ async function main() {
 
     await upsertProvinces();
     await upsertCities();
-    await seedAnswers(); 
+    // await seedAnswers(); 
 }
 
 function randomChoice<T>(arr: T[]): T {

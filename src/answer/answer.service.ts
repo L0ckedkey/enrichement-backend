@@ -11,10 +11,69 @@ export class AnswerService {
   constructor(private readonly prisma: PrismaService, private readonly httpService: HttpService){}
 
   async create(createAnswerDto: CreateAnswerDto) {
+    const answerArray: number[] = createAnswerDto.answer.split(',').map(Number);
+    
+
     try {
+      const offset = 8
+      const sub_dimensi_x1_1 = answerArray[0] + answerArray[1]
+      const sub_dimensi_x1_2 = answerArray[2]
+      const sub_dimensi_x1_3 = answerArray[3]
+      const sub_dimensi_x2_1 = answerArray[4] + answerArray[5] + answerArray[6] + answerArray[7] + answerArray[8]
+      const sub_dimensi_x2_2 = answerArray[9] + answerArray[10]
+      const sub_dimensi_x2_3 = answerArray[11] + answerArray[12]
+      const sub_dimensi_x3_1 = answerArray[13] + answerArray[14]
+      const sub_dimensi_x3_2 = answerArray[15] + answerArray[17]
+      const sub_dimensi_x3_3 = answerArray[18] + answerArray[19] + answerArray[20] + answerArray[21] + answerArray[22]
+      const sub_dimensi_x3_4 = answerArray[23] + answerArray[24]
+      const sub_dimensi_x4_1 = answerArray[25]
+      const sub_dimensi_x4_2 = answerArray[26] + answerArray[27] + answerArray[28]
+      const sub_dimensi_x4_3 = answerArray[29] + answerArray[30] + answerArray[31] + answerArray[32] + answerArray[33] + answerArray[34] + answerArray[35]
+      const sub_dimensi_x4_4 = answerArray[36] + answerArray[37] + answerArray[38] + answerArray[39] + answerArray[40] + answerArray[41]
+      const sub_dimensi_x4_5 = answerArray[42] + answerArray[43] + answerArray[44] + answerArray[45]
+      const sub_dimensi_x5_1 = answerArray[46] + answerArray[47]
+      const sub_dimensi_x5_2 = answerArray[48] + answerArray[49]
+      const dimensi_1 = sub_dimensi_x1_1 + sub_dimensi_x1_2 + sub_dimensi_x1_3
+      const dimensi_2 = sub_dimensi_x2_1 + sub_dimensi_x2_2 + sub_dimensi_x2_3
+      const dimensi_3 = sub_dimensi_x3_1 + sub_dimensi_x3_2 + sub_dimensi_x3_3 + sub_dimensi_x3_4
+      const dimensi_4 = sub_dimensi_x4_1 + sub_dimensi_x4_2 + sub_dimensi_x4_3 + sub_dimensi_x4_4 + sub_dimensi_x4_5
+      const dimensi_5 = sub_dimensi_x5_1 + sub_dimensi_x5_2
+
+
       await this.prisma.answer.create({
-        data: createAnswerDto
+        data: {
+          profile: createAnswerDto.profile,
+          total: createAnswerDto.total,
+          city_id: createAnswerDto.city_id,
+          user_id: createAnswerDto.user_id,
+          dimensi_1: dimensi_1,
+          dimensi_2: dimensi_2,
+          dimensi_3: dimensi_3,
+          dimensi_4: dimensi_4,
+          dimensi_5: dimensi_5,
+          dimensi_6: answerArray[0],
+          dimensi_7: answerArray[1],
+          dimensi_8: answerArray[2],
+          dimensi_9: answerArray[3],
+          dimensi_10: answerArray[4],
+          dimensi_11: answerArray[5],
+          dimensi_12: answerArray[6],
+          dimensi_13: answerArray[7],
+          dimensi_14: answerArray[8],
+          sub_dimensi_x1_1: sub_dimensi_x1_1,
+          sub_dimensi_x1_2: sub_dimensi_x1_2,
+          sub_dimensi_x2_1: sub_dimensi_x2_1,
+          sub_dimensi_x2_2: sub_dimensi_x2_2,
+          sub_dimensi_x3_1: sub_dimensi_x3_1,
+          sub_dimensi_x3_2: sub_dimensi_x3_2,
+          sub_dimensi_x4_1: sub_dimensi_x4_1,
+          sub_dimensi_x4_2: sub_dimensi_x4_2,
+          sub_dimensi_x4_3: sub_dimensi_x4_3,
+          sub_dimensi_x5_1: sub_dimensi_x5_1,
+          sub_dimensi_x5_2: sub_dimensi_x5_2,
+        }
       })
+
       return this.httpService.returnHTTPOK(this.tableName, 'create')
     } catch (error) {
       if(process.env.MODE == 'development'){
@@ -266,7 +325,22 @@ export class AnswerService {
     try {
       return await this.prisma.answer.findMany({
         select: {
-          answer: true,
+          dimensi_1: true,
+          dimensi_2: true,
+          dimensi_3: true,
+          dimensi_4: true,
+          dimensi_5: true,
+          sub_dimensi_x1_1: true,
+          sub_dimensi_x1_2: true,
+          sub_dimensi_x2_1: true,
+          sub_dimensi_x2_2: true,
+          sub_dimensi_x3_1: true,
+          sub_dimensi_x3_2: true,
+          sub_dimensi_x4_1: true,
+          sub_dimensi_x4_2: true,
+          sub_dimensi_x4_3: true,
+          sub_dimensi_x5_1: true,
+          sub_dimensi_x5_2: true,
           createdAt: true,
           city_reference: {
             select: {
@@ -329,7 +403,22 @@ export class AnswerService {
         },
         select: {
           id: true,
-          answer: true
+          dimensi_1: true,
+          dimensi_2: true,
+          dimensi_3: true,
+          dimensi_4: true,
+          dimensi_5: true,
+          sub_dimensi_x1_1: true,
+          sub_dimensi_x1_2: true,
+          sub_dimensi_x2_1: true,
+          sub_dimensi_x2_2: true,
+          sub_dimensi_x3_1: true,
+          sub_dimensi_x3_2: true,
+          sub_dimensi_x4_1: true,
+          sub_dimensi_x4_2: true,
+          sub_dimensi_x4_3: true,
+          sub_dimensi_x5_1: true,
+          sub_dimensi_x5_2: true,
         }
       }), this.tableName)
    

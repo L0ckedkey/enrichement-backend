@@ -47,9 +47,9 @@ export class UserController {
     return this.userService.remove(+id);
   }
 
-  @Post('email')
+  @Get('email')
   email(){
-    return this.userService.sendUserConfirmation(6, 'hnsindrawan@gmail.com')
+    return this.userService.sendUserConfirmation(1, 'hnsindrawan@gmail.com')
   }
 
   @Patch('confirm/:id')
