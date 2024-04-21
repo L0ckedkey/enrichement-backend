@@ -75,7 +75,31 @@ model Answer {
   user_id Int
   city_id Int
   total Int
-  answer  String
+  dimensi_1 Int
+  dimensi_2 Int
+  dimensi_3 Int
+  dimensi_4 Int
+  dimensi_5 Int
+  dimensi_6 Int
+  dimensi_7 Int
+  dimensi_8 Int
+  dimensi_9 Int
+  dimensi_10 Int
+  dimensi_11 Int
+  dimensi_12 Int
+  dimensi_13 Int
+  dimensi_14 Int
+  sub_dimensi_x1_1 Int
+  sub_dimensi_x1_2 Int
+  sub_dimensi_x2_1 Int
+  sub_dimensi_x2_2 Int
+  sub_dimensi_x3_1 Int
+  sub_dimensi_x3_2 Int
+  sub_dimensi_x4_1 Int
+  sub_dimensi_x4_2 Int
+  sub_dimensi_x4_3 Int
+  sub_dimensi_x5_1 Int
+  sub_dimensi_x5_2 Int
   profile String
   createdAt DateTime @default(now())
 

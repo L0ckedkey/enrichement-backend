@@ -94,6 +94,8 @@ export class UserService {
           id,
         },
       });
+
+      return 'ok'
     } catch (error) {
       if(process.env.MODE == 'development'){
         console.log(error)
