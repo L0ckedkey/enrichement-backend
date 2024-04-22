@@ -12,7 +12,7 @@ export class AnswerService {
 
   async create(createAnswerDto: CreateAnswerDto) {
     const answerArray: number[] = createAnswerDto.answer.split(',').map(Number);
-    
+    console.log(answerArray)
 
     try {
       const offset = 8
@@ -28,11 +28,11 @@ export class AnswerService {
       const sub_dimensi_x3_4 = answerArray[23] + answerArray[24]
       const sub_dimensi_x4_1 = answerArray[25]
       const sub_dimensi_x4_2 = answerArray[26] + answerArray[27] + answerArray[28]
-      const sub_dimensi_x4_3 = answerArray[29] + answerArray[30] + answerArray[31] + answerArray[32] + answerArray[33] + answerArray[34] + answerArray[35]
-      const sub_dimensi_x4_4 = answerArray[36] + answerArray[37] + answerArray[38] + answerArray[39] + answerArray[40] + answerArray[41]
-      const sub_dimensi_x4_5 = answerArray[42] + answerArray[43] + answerArray[44] + answerArray[45]
-      const sub_dimensi_x5_1 = answerArray[46] + answerArray[47]
-      const sub_dimensi_x5_2 = answerArray[48] + answerArray[49]
+      const sub_dimensi_x4_3 = answerArray[29] + answerArray[30] + answerArray[31] + answerArray[32] + answerArray[33]
+      const sub_dimensi_x4_4 = answerArray[34] + answerArray[35] + answerArray[36] + answerArray[37]
+      const sub_dimensi_x4_5 = answerArray[38] + answerArray[39] + answerArray[40] + answerArray[41]
+      const sub_dimensi_x5_1 = answerArray[42] + answerArray[43]
+      const sub_dimensi_x5_2 = answerArray[44] + answerArray[45]
       const dimensi_1 = sub_dimensi_x1_1 + sub_dimensi_x1_2 + sub_dimensi_x1_3
       const dimensi_2 = sub_dimensi_x2_1 + sub_dimensi_x2_2 + sub_dimensi_x2_3
       const dimensi_3 = sub_dimensi_x3_1 + sub_dimensi_x3_2 + sub_dimensi_x3_3 + sub_dimensi_x3_4
