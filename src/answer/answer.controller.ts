@@ -70,4 +70,24 @@ export class AnswerController {
   findAnswerByProvince(@Param('province') province: string) {
     return this.answerService.findByProvince(province);
   }
+
+  @Get('/feat-city-ans/:city')
+  getAnsCityFeature(@Param('city') city: string) {
+    return this.answerService.getFeatCity(+city);
+  }
+
+  @Get('/dim-city-ans/:city')
+  getAnsCityDim(@Param('city') city: string) {
+    return this.answerService.getDimCity(+city);
+  }
+
+  @Get('/feat-prov-ans/:city')
+  getAnsProvFeature(@Param('city') city: string) {
+    return this.answerService.getFeatProv(+city);
+  }
+
+  @Get('/dim-prov-ans/:city')
+  getAnsProvDim(@Param('city') city: string) {
+    return this.answerService.getDimProv(+city);
+  }
 }
