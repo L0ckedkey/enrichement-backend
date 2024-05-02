@@ -10,6 +10,24 @@ export class AnswerService {
   tableName: string = 'answer'
   constructor(private readonly prisma: PrismaService, private readonly httpService: HttpService){}
 
+  x1_1: number = 8
+  x1_2: number = 8
+  x2_1: number = 24
+  x2_2: number = 8
+  x3_1: number = 8
+  x3_2: number = 36
+  x4_1: number = 16
+  x4_2: number = 24
+  x4_3: number = 36
+  x5_1: number = 8
+  x5_2: number = 8
+  dim1:number = 16
+  dim2:number = 32
+  dim3:number = 44
+  dim4:number = 76
+  dim5:number = 16
+  
+
   async create(createAnswerDto: CreateAnswerDto) {
     const answerArray: number[] = createAnswerDto.answer.split(',').map(Number);
     console.log(answerArray)
@@ -482,6 +500,312 @@ export class AnswerService {
         console.log(error)
       }
       return this.httpService.returnInternalServerError(this.tableName)      
+    }
+  }
+
+  async getFeatCity(kota: number){
+    try {
+      const answers = await this.prisma.answer.findMany({
+        where: {
+          city_id: kota
+        },
+        select: {
+          sub_dimensi_x1_1: true,
+          sub_dimensi_x1_2: true,
+          sub_dimensi_x2_1: true,
+          sub_dimensi_x2_2: true,
+          sub_dimensi_x3_1: true,
+          sub_dimensi_x3_2: true,
+          sub_dimensi_x4_1: true,
+          sub_dimensi_x4_2: true,
+          sub_dimensi_x4_3: true,
+          sub_dimensi_x5_1: true,
+          sub_dimensi_x5_2: true
+        }
+      })
+      if (answers.length === 0) {
+        throw new Error('no ID');
+      }
+
+      const totals = {
+        sub_dimensi_x1_1: 0,
+        sub_dimensi_x1_2: 0,
+        sub_dimensi_x2_1: 0,
+        sub_dimensi_x2_2: 0,
+        sub_dimensi_x3_1: 0,
+        sub_dimensi_x3_2: 0,
+        sub_dimensi_x4_1: 0,
+        sub_dimensi_x4_2: 0,
+        sub_dimensi_x4_3: 0,
+        sub_dimensi_x5_1: 0,
+        sub_dimensi_x5_2: 0,
+      };
+
+      answers.forEach(answer => {
+        for (const key in answer) {
+          if (key.startsWith('sub_dimensi_')) {
+            totals[key] += answer[key];
+          }
+        }
+      });
+      
+      const len = answers.length
+
+      const percent_x1_1 = (totals.sub_dimensi_x1_1 / this.x1_1) * len;
+      const percent_x1_2 = (totals.sub_dimensi_x1_2 / this.x1_2) * len;
+      const percent_x2_1 = (totals.sub_dimensi_x2_1 / this.x2_1) * len;
+      const percent_x2_2 = (totals.sub_dimensi_x2_2 / this.x2_2) * len;
+      const percent_x3_1 = (totals.sub_dimensi_x3_1 / this.x3_1) * len;
+      const percent_x3_2 = (totals.sub_dimensi_x3_2 / this.x3_2) * len;
+      const percent_x4_1 = (totals.sub_dimensi_x4_1 / this.x4_1) * len;
+      const percent_x4_2 = (totals.sub_dimensi_x4_2 / this.x4_2) * len;
+      const percent_x4_3 = (totals.sub_dimensi_x4_3 / this.x4_3) * len;
+      const percent_x5_1 = (totals.sub_dimensi_x5_1 / this.x5_1) * len;
+      const percent_x5_2 = (totals.sub_dimensi_x5_2 / this.x5_2) * len;
+
+      const percentages = [
+        percent_x1_1,
+        percent_x1_2,
+        percent_x2_1,
+        percent_x2_2,
+        percent_x3_1,
+        percent_x3_2,
+        percent_x4_1,
+        percent_x4_2,
+        percent_x4_3,
+        percent_x5_1,
+        percent_x5_2,
+      ];
+  
+      const highestPercentage = Math.min(...percentages);
+      const minIndex = percentages.indexOf(highestPercentage);
+
+      return minIndex
+
+    } catch (error) {
+      
+      if(error.message == 'no ID'){
+        return this.httpService.returnBadRequestException()
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async getDimCity(kota: number){
+    try {
+      const answers = await this.prisma.answer.findMany({
+        where: {
+          city_id: kota
+        },
+        select: {
+          dimensi_1: true,
+          dimensi_2: true,
+          dimensi_3: true,
+          dimensi_4: true,
+          dimensi_5: true,
+          
+        }
+      })
+      if (answers.length === 0) {
+        throw new Error('no ID');
+      }
+      const totals = {
+          dimensi_1: 0,
+          dimensi_2: 0,
+          dimensi_3: 0,
+          dimensi_4: 0,
+          dimensi_5: 0,
+      };
+
+      answers.forEach(answer => {
+        for (const key in answer) {
+          if (key.startsWith('sub_dimensi_')) {
+            totals[key] += answer[key];
+          }
+        }
+      });
+      
+      const len = answers.length
+
+      const percent_x1_1 = (totals.dimensi_1 / this.dim1) * len;
+      const percent_x1_2 = (totals.dimensi_2 / this.dim2) * len;
+      const percent_x2_1 = (totals.dimensi_3 / this.dim3) * len;
+      const percent_x2_2 = (totals.dimensi_4 / this.dim4) * len;
+      const percent_x3_1 = (totals.dimensi_5 / this.dim5) * len;
+
+      const percentages = [
+        percent_x1_1,
+        percent_x1_2,
+        percent_x2_1,
+        percent_x2_2,
+        percent_x3_1,
+      ];
+  
+      const highestPercentage = Math.min(...percentages);
+      const minIndex = percentages.indexOf(highestPercentage);
+
+      return minIndex
+
+    } catch (error) {
+      if(error.message == 'no ID'){
+        return this.httpService.returnBadRequestException()
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async getFeatProv(kota: number){
+    try {
+      const answers = await this.prisma.answer.findMany({
+        where: {
+          city_reference: {
+              province_id: kota
+          }
+        },
+        select: {
+          sub_dimensi_x1_1: true,
+          sub_dimensi_x1_2: true,
+          sub_dimensi_x2_1: true,
+          sub_dimensi_x2_2: true,
+          sub_dimensi_x3_1: true,
+          sub_dimensi_x3_2: true,
+          sub_dimensi_x4_1: true,
+          sub_dimensi_x4_2: true,
+          sub_dimensi_x4_3: true,
+          sub_dimensi_x5_1: true,
+          sub_dimensi_x5_2: true
+        }
+      })
+      if (answers.length === 0) {
+        throw new Error('no ID');
+      }
+
+      const totals = {
+        sub_dimensi_x1_1: 0,
+        sub_dimensi_x1_2: 0,
+        sub_dimensi_x2_1: 0,
+        sub_dimensi_x2_2: 0,
+        sub_dimensi_x3_1: 0,
+        sub_dimensi_x3_2: 0,
+        sub_dimensi_x4_1: 0,
+        sub_dimensi_x4_2: 0,
+        sub_dimensi_x4_3: 0,
+        sub_dimensi_x5_1: 0,
+        sub_dimensi_x5_2: 0,
+      };
+
+      answers.forEach(answer => {
+        for (const key in answer) {
+          if (key.startsWith('sub_dimensi_')) {
+            totals[key] += answer[key];
+          }
+        }
+      });
+      
+      const len = answers.length
+
+      const percent_x1_1 = (totals.sub_dimensi_x1_1 / this.x1_1) * len;
+      const percent_x1_2 = (totals.sub_dimensi_x1_2 / this.x1_2) * len;
+      const percent_x2_1 = (totals.sub_dimensi_x2_1 / this.x2_1) * len;
+      const percent_x2_2 = (totals.sub_dimensi_x2_2 / this.x2_2) * len;
+      const percent_x3_1 = (totals.sub_dimensi_x3_1 / this.x3_1) * len;
+      const percent_x3_2 = (totals.sub_dimensi_x3_2 / this.x3_2) * len;
+      const percent_x4_1 = (totals.sub_dimensi_x4_1 / this.x4_1) * len;
+      const percent_x4_2 = (totals.sub_dimensi_x4_2 / this.x4_2) * len;
+      const percent_x4_3 = (totals.sub_dimensi_x4_3 / this.x4_3) * len;
+      const percent_x5_1 = (totals.sub_dimensi_x5_1 / this.x5_1) * len;
+      const percent_x5_2 = (totals.sub_dimensi_x5_2 / this.x5_2) * len;
+
+      const percentages = [
+        percent_x1_1,
+        percent_x1_2,
+        percent_x2_1,
+        percent_x2_2,
+        percent_x3_1,
+        percent_x3_2,
+        percent_x4_1,
+        percent_x4_2,
+        percent_x4_3,
+        percent_x5_1,
+        percent_x5_2,
+      ];
+  
+      const highestPercentage = Math.min(...percentages);
+      const minIndex = percentages.indexOf(highestPercentage);
+
+      return minIndex
+
+    } catch (error) {
+      
+      if(error.message == 'no ID'){
+        return this.httpService.returnBadRequestException()
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async getDimProv(kota: number){
+    try {
+      const answers = await this.prisma.answer.findMany({
+        where: {
+          city_reference: {
+            province_id: kota
+          }
+        },
+        select: {
+          dimensi_1: true,
+          dimensi_2: true,
+          dimensi_3: true,
+          dimensi_4: true,
+          dimensi_5: true,
+          
+        }
+      })
+      if (answers.length === 0) {
+        throw new Error('no ID');
+      }
+      const totals = {
+          dimensi_1: 0,
+          dimensi_2: 0,
+          dimensi_3: 0,
+          dimensi_4: 0,
+          dimensi_5: 0,
+      };
+
+      answers.forEach(answer => {
+        for (const key in answer) {
+          if (key.startsWith('sub_dimensi_')) {
+            totals[key] += answer[key];
+          }
+        }
+      });
+      
+      const len = answers.length
+
+      const percent_x1_1 = (totals.dimensi_1 / this.dim1) * len;
+      const percent_x1_2 = (totals.dimensi_2 / this.dim2) * len;
+      const percent_x2_1 = (totals.dimensi_3 / this.dim3) * len;
+      const percent_x2_2 = (totals.dimensi_4 / this.dim4) * len;
+      const percent_x3_1 = (totals.dimensi_5 / this.dim5) * len;
+
+      const percentages = [
+        percent_x1_1,
+        percent_x1_2,
+        percent_x2_1,
+        percent_x2_2,
+        percent_x3_1,
+      ];
+  
+      const highestPercentage = Math.min(...percentages);
+      const minIndex = percentages.indexOf(highestPercentage);
+
+      return minIndex
+
+    } catch (error) {
+      if(error.message == 'no ID'){
+        return this.httpService.returnBadRequestException()
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
     }
   }
 }
