@@ -464,11 +464,20 @@ export class AnswerService {
         }
       }), this.tableName)
 
-      return this.prisma.answer.findMany({
+      const minFeatCity = await this.getFeatCity(city)
+      const minDimCity = await this.getDimCity(city)
+
+      const ansCity = await this.prisma.answer.findMany({
         where:  {
           city_id: result.id
         }
       })
+
+      return {
+        result: ansCity,
+        minFeatCity: minFeatCity,
+        minDimCity: minDimCity
+      }
     } catch (error) {
       if(process.env.MODE == 'development'){
         console.log(error)
@@ -488,13 +497,22 @@ export class AnswerService {
         }
       }), this.tableName)
 
-      return this.prisma.answer.findMany({
+      const minFeatProv = await this.getFeatProv(result.id)
+      const minDimProv = await this.getDimProv(result.id)
+
+      const ansProv = await this.prisma.answer.findMany({
         where: {
           city_reference: {
             province_id: result.id
           }
         }
       })
+
+      return {
+        result: ansProv,
+        minFeatProv: minFeatProv,
+        minDimProv: minDimProv
+      }
     } catch (error) {
       if(process.env.MODE == 'development'){
         console.log(error)
