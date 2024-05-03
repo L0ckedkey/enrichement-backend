@@ -542,7 +542,7 @@ export class AnswerService {
         }
       })
       if (answers.length === 0) {
-        throw new Error('no ID');
+        return []
       }
 
       const totals = {
@@ -625,7 +625,7 @@ export class AnswerService {
         }
       })
       if (answers.length === 0) {
-        throw new Error('no ID');
+        return []
       }
       const totals = {
           dimensi_1: 0,
@@ -695,7 +695,7 @@ export class AnswerService {
         }
       })
       if (answers.length === 0) {
-        throw new Error('no ID');
+        return []
       }
 
       const totals = {
@@ -780,7 +780,7 @@ export class AnswerService {
         }
       })
       if (answers.length === 0) {
-        throw new Error('no ID');
+        return []
       }
       const totals = {
           dimensi_1: 0,
