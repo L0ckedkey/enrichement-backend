@@ -90,4 +90,14 @@ export class AnswerController {
   getAnsProvDim(@Param('city') city: string) {
     return this.answerService.getDimProv(+city);
   }
+
+  @Get('/percent-province/:province')
+  getQuartileProvince(@Param('province') province: string) {
+    return this.answerService.getQuartilProvince(+province);
+  }
+
+  @Get('/percent-city/:city')
+  getQuartileCity(@Param('city') city: string) {
+    return this.answerService.getQuartilCity(+city);
+  }
 }

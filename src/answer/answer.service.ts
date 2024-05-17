@@ -10,22 +10,23 @@ export class AnswerService {
   tableName: string = 'answer'
   constructor(private readonly prisma: PrismaService, private readonly httpService: HttpService){}
 
-  x1_1: number = 8
-  x1_2: number = 8
-  x2_1: number = 24
-  x2_2: number = 8
-  x3_1: number = 8
-  x3_2: number = 36
-  x4_1: number = 16
-  x4_2: number = 24
-  x4_3: number = 36
-  x5_1: number = 8
-  x5_2: number = 8
-  dim1:number = 16
-  dim2:number = 32
-  dim3:number = 44
-  dim4:number = 76
-  dim5:number = 16
+  x1_1: number = 5
+  x1_2: number = 5
+  x2_1: number = 5
+  x2_2: number = 5
+  x3_1: number = 5
+  x3_2: number = 5
+  x3_3: number = 5
+  x4_1: number = 5
+  x4_2: number = 5
+  x4_3: number = 5
+  x5_1: number = 5
+  x5_2: number = 5
+  dim1:number = 10
+  dim2:number = 10
+  dim3:number = 15
+  dim4:number = 10
+  dim5:number = 10
   
 
   async create(createAnswerDto: CreateAnswerDto) {
@@ -34,27 +35,22 @@ export class AnswerService {
 
     try {
       const offset = 8
-      const sub_dimensi_x1_1 = answerArray[0] + answerArray[1]
-      const sub_dimensi_x1_2 = answerArray[2]
-      const sub_dimensi_x1_3 = answerArray[3]
-      const sub_dimensi_x2_1 = answerArray[4] + answerArray[5] + answerArray[6] + answerArray[7] + answerArray[8]
-      const sub_dimensi_x2_2 = answerArray[9] + answerArray[10]
-      const sub_dimensi_x2_3 = answerArray[11] + answerArray[12]
-      const sub_dimensi_x3_1 = answerArray[13] + answerArray[14]
-      const sub_dimensi_x3_2 = answerArray[15] + answerArray[17]
-      const sub_dimensi_x3_3 = answerArray[18] + answerArray[19] + answerArray[20] + answerArray[21] + answerArray[22]
-      const sub_dimensi_x3_4 = answerArray[23] + answerArray[24]
-      const sub_dimensi_x4_1 = answerArray[25]
-      const sub_dimensi_x4_2 = answerArray[26] + answerArray[27] + answerArray[28]
-      const sub_dimensi_x4_3 = answerArray[29] + answerArray[30] + answerArray[31] + answerArray[32] + answerArray[33]
-      const sub_dimensi_x4_4 = answerArray[34] + answerArray[35] + answerArray[36] + answerArray[37]
-      const sub_dimensi_x4_5 = answerArray[38] + answerArray[39] + answerArray[40] + answerArray[41]
-      const sub_dimensi_x5_1 = answerArray[42] + answerArray[43]
-      const sub_dimensi_x5_2 = answerArray[44] + answerArray[45]
-      const dimensi_1 = sub_dimensi_x1_1 + sub_dimensi_x1_2 + sub_dimensi_x1_3
-      const dimensi_2 = sub_dimensi_x2_1 + sub_dimensi_x2_2 + sub_dimensi_x2_3
-      const dimensi_3 = sub_dimensi_x3_1 + sub_dimensi_x3_2 + sub_dimensi_x3_3 + sub_dimensi_x3_4
-      const dimensi_4 = sub_dimensi_x4_1 + sub_dimensi_x4_2 + sub_dimensi_x4_3 + sub_dimensi_x4_4 + sub_dimensi_x4_5
+      const sub_dimensi_x1_1 = answerArray[0 + 0] + answerArray[1 + 0] + answerArray[2 + 0] + answerArray[3 + 0] + answerArray[4 + 0]
+      const sub_dimensi_x1_2 = answerArray[0 + 5] + answerArray[1 + 5] + answerArray[2 + 5] + answerArray[3 + 5] + answerArray[4 + 5]
+      const sub_dimensi_x2_1 = answerArray[0 + 10] + answerArray[1 + 10] + answerArray[2 + 10] + answerArray[3 + 10] + answerArray[4 + 10]
+      const sub_dimensi_x2_2 = answerArray[0 + 15] + answerArray[1 + 15] + answerArray[2 + 15] + answerArray[3 + 15] + answerArray[4 + 15]
+      const sub_dimensi_x3_1 = answerArray[0 + 20] + answerArray[1 + 20] + answerArray[2 + 20] + answerArray[3 + 20] + answerArray[4 + 20]
+      const sub_dimensi_x3_2 = answerArray[0 + 25] + answerArray[1 + 25] + answerArray[2 + 25] + answerArray[3 + 25] + answerArray[4 + 25]
+      const sub_dimensi_x3_3 = answerArray[0 + 30] + answerArray[1 + 30] + answerArray[2 + 30] + answerArray[3 + 30] + answerArray[4 + 30]
+      const sub_dimensi_x4_1 = answerArray[0 + 35] + answerArray[1 + 35] + answerArray[2 + 35] + answerArray[3 + 35] + answerArray[4 + 35]
+      const sub_dimensi_x4_2 = answerArray[0 + 40] + answerArray[1 + 40] + answerArray[2 + 40] + answerArray[3 + 40] + answerArray[4 + 40]
+      const sub_dimensi_x5_1 = answerArray[0 + 45] + answerArray[1 + 45] + answerArray[2 + 45] + answerArray[3 + 45] + answerArray[4 + 45]
+      const sub_dimensi_x5_2 = answerArray[0 + 50] + answerArray[1 + 50] + answerArray[2 + 50] + answerArray[3 + 50] + answerArray[4 + 50]
+
+      const dimensi_1 = sub_dimensi_x1_1 + sub_dimensi_x1_2
+      const dimensi_2 = sub_dimensi_x2_1 + sub_dimensi_x2_2
+      const dimensi_3 = sub_dimensi_x3_1 + sub_dimensi_x3_2 + sub_dimensi_x3_3
+      const dimensi_4 = sub_dimensi_x4_1 + sub_dimensi_x4_2
       const dimensi_5 = sub_dimensi_x5_1 + sub_dimensi_x5_2
 
 
@@ -84,9 +80,9 @@ export class AnswerService {
           sub_dimensi_x2_2: sub_dimensi_x2_2,
           sub_dimensi_x3_1: sub_dimensi_x3_1,
           sub_dimensi_x3_2: sub_dimensi_x3_2,
+          sub_dimensi_x3_3: sub_dimensi_x3_3,
           sub_dimensi_x4_1: sub_dimensi_x4_1,
           sub_dimensi_x4_2: sub_dimensi_x4_2,
-          sub_dimensi_x4_3: sub_dimensi_x4_3,
           sub_dimensi_x5_1: sub_dimensi_x5_1,
           sub_dimensi_x5_2: sub_dimensi_x5_2,
         }
@@ -354,9 +350,9 @@ export class AnswerService {
           sub_dimensi_x2_2: true,
           sub_dimensi_x3_1: true,
           sub_dimensi_x3_2: true,
+          sub_dimensi_x3_3: true,
           sub_dimensi_x4_1: true,
           sub_dimensi_x4_2: true,
-          sub_dimensi_x4_3: true,
           sub_dimensi_x5_1: true,
           sub_dimensi_x5_2: true,
           createdAt: true,
@@ -432,11 +428,11 @@ export class AnswerService {
           sub_dimensi_x2_2: true,
           sub_dimensi_x3_1: true,
           sub_dimensi_x3_2: true,
+          sub_dimensi_x3_3: true,
           sub_dimensi_x4_1: true,
           sub_dimensi_x4_2: true,
-          sub_dimensi_x4_3: true,
           sub_dimensi_x5_1: true,
-          sub_dimensi_x5_2: true,
+          sub_dimensi_x5_2: true
         }
       }), this.tableName)
    
@@ -534,9 +530,9 @@ export class AnswerService {
           sub_dimensi_x2_2: true,
           sub_dimensi_x3_1: true,
           sub_dimensi_x3_2: true,
+          sub_dimensi_x3_3: true,
           sub_dimensi_x4_1: true,
           sub_dimensi_x4_2: true,
-          sub_dimensi_x4_3: true,
           sub_dimensi_x5_1: true,
           sub_dimensi_x5_2: true
         }
@@ -552,6 +548,7 @@ export class AnswerService {
         sub_dimensi_x2_2: 0,
         sub_dimensi_x3_1: 0,
         sub_dimensi_x3_2: 0,
+        sub_dimensi_x3_3: 0,
         sub_dimensi_x4_1: 0,
         sub_dimensi_x4_2: 0,
         sub_dimensi_x4_3: 0,
@@ -575,6 +572,7 @@ export class AnswerService {
       const percent_x2_2 = (totals.sub_dimensi_x2_2 / this.x2_2) * len;
       const percent_x3_1 = (totals.sub_dimensi_x3_1 / this.x3_1) * len;
       const percent_x3_2 = (totals.sub_dimensi_x3_2 / this.x3_2) * len;
+      const percent_x3_3 = (totals.sub_dimensi_x3_3 / this.x3_3) * len;
       const percent_x4_1 = (totals.sub_dimensi_x4_1 / this.x4_1) * len;
       const percent_x4_2 = (totals.sub_dimensi_x4_2 / this.x4_2) * len;
       const percent_x4_3 = (totals.sub_dimensi_x4_3 / this.x4_3) * len;
@@ -588,6 +586,7 @@ export class AnswerService {
         percent_x2_2,
         percent_x3_1,
         percent_x3_2,
+        percent_x3_3,
         percent_x4_1,
         percent_x4_2,
         percent_x4_3,
@@ -687,9 +686,9 @@ export class AnswerService {
           sub_dimensi_x2_2: true,
           sub_dimensi_x3_1: true,
           sub_dimensi_x3_2: true,
+          sub_dimensi_x3_3: true,
           sub_dimensi_x4_1: true,
           sub_dimensi_x4_2: true,
-          sub_dimensi_x4_3: true,
           sub_dimensi_x5_1: true,
           sub_dimensi_x5_2: true
         }
@@ -705,6 +704,7 @@ export class AnswerService {
         sub_dimensi_x2_2: 0,
         sub_dimensi_x3_1: 0,
         sub_dimensi_x3_2: 0,
+        sub_dimensi_x3_3: 0,
         sub_dimensi_x4_1: 0,
         sub_dimensi_x4_2: 0,
         sub_dimensi_x4_3: 0,
@@ -728,6 +728,7 @@ export class AnswerService {
       const percent_x2_2 = (totals.sub_dimensi_x2_2 / this.x2_2) * len;
       const percent_x3_1 = (totals.sub_dimensi_x3_1 / this.x3_1) * len;
       const percent_x3_2 = (totals.sub_dimensi_x3_2 / this.x3_2) * len;
+      const percent_x3_3 = (totals.sub_dimensi_x3_3 / this.x3_3) * len;
       const percent_x4_1 = (totals.sub_dimensi_x4_1 / this.x4_1) * len;
       const percent_x4_2 = (totals.sub_dimensi_x4_2 / this.x4_2) * len;
       const percent_x4_3 = (totals.sub_dimensi_x4_3 / this.x4_3) * len;
@@ -741,6 +742,7 @@ export class AnswerService {
         percent_x2_2,
         percent_x3_1,
         percent_x3_2,
+        percent_x3_3,
         percent_x4_1,
         percent_x4_2,
         percent_x4_3,
@@ -826,4 +828,100 @@ export class AnswerService {
       return this.httpService.returnInternalServerError(this.tableName)
     }
   }
+
+  async getQuartilProvince(provinceID: number){
+      try {
+        const answers = await this.prisma.answer.findMany({
+          select: {
+            total: true
+          },
+          where: {
+            city_reference: {
+              province_id: provinceID
+            }
+          }
+        })
+        if (answers.length === 0) {
+          return []
+        }
+        const totals = answers.map(answer => answer.total);
+
+        const max = Math.max(...totals);
+        const min = Math.min(...totals);
+
+        const q2 = (max-min)/2+min
+        const q1 = (q2 - min)/2+min
+        const q3 = (max - q2)/2 + q2
+
+        const q1Count = totals.filter(total => total <= q1).length;
+        const q2Count = totals.filter(total => total > q1 && total <= q2).length;
+        const q3Count = totals.filter(total => total > q2 && total <= q3).length
+        const q4Count = totals.filter(total => total > q3).length;
+
+        const totalCount = totals.length;
+
+        const q1Percentage = (q1Count / totalCount) * 100;
+        const q2Percentage = (q2Count / totalCount) * 100;
+        const q3Percentage = (q3Count / totalCount) * 100;
+        const q4Percentage = (q4Count / totalCount) * 100;
+
+        return {
+          q1: q1Percentage,
+          q2: q2Percentage,
+          q3: q3Percentage,
+          q4: q4Percentage
+        };
+
+
+      } catch (error) {
+        return this.httpService.returnInternalServerError(this.tableName)
+      }
+  }
+
+  async getQuartilCity(cityID: number){
+    try {
+      const answers = await this.prisma.answer.findMany({
+        select: {
+          total: true
+        },
+        where: {
+          city_id: cityID
+        }
+      })
+      if (answers.length === 0) {
+        return []
+      }
+      const totals = answers.map(answer => answer.total);
+
+      const max = Math.max(...totals);
+      const min = Math.min(...totals);
+
+      const q2 = (max-min)/2+min
+      const q1 = (q2 - min)/2+min
+      const q3 = (max - q2)/2 + q2
+
+      const q1Count = totals.filter(total => total <= q1).length;
+      const q2Count = totals.filter(total => total > q1 && total <= q2).length;
+      const q3Count = totals.filter(total => total > q2 && total <= q3).length
+      const q4Count = totals.filter(total => total > q3).length;
+
+      const totalCount = totals.length;
+
+      const q1Percentage = (q1Count / totalCount) * 100;
+      const q2Percentage = (q2Count / totalCount) * 100;
+      const q3Percentage = (q3Count / totalCount) * 100;
+      const q4Percentage = (q4Count / totalCount) * 100;
+
+      return {
+        q1: q1Percentage,
+        q2: q2Percentage,
+        q3: q3Percentage,
+        q4: q4Percentage
+      };
+
+
+    } catch (error) {
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+}
 }
