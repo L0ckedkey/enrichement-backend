@@ -95,9 +95,9 @@ model Answer {
   sub_dimensi_x2_2 Int
   sub_dimensi_x3_1 Int
   sub_dimensi_x3_2 Int
+  sub_dimensi_x3_3 Int
   sub_dimensi_x4_1 Int
   sub_dimensi_x4_2 Int
-  sub_dimensi_x4_3 Int
   sub_dimensi_x5_1 Int
   sub_dimensi_x5_2 Int
   profile String

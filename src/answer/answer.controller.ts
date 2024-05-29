@@ -90,4 +90,40 @@ export class AnswerController {
   getAnsProvDim(@Param('city') city: string) {
     return this.answerService.getDimProv(+city);
   }
+
+  @Get('/percent-province/:province')
+  getQuartileProvince(@Param('province') province: string) {
+    return this.answerService.getQuartilProvince(+province);
+  }
+
+  @Get('/percent-city/:city')
+  getQuartileCity(@Param('city') city: string) {
+    return this.answerService.getQuartilCity(+city);
+  }
+
+  @Get('/average-province-dimension/:province')
+  getAvgProvinceDimnesion(@Param('province') province : number){
+    return this.answerService.getAverageProvinceDimension(province)
+  }
+
+  @Get('/average-city-dimension/:city')
+  getAvgCityDimnesion(@Param('city') city : number){
+    return this.answerService.getAverageCityDimension(city)
+  }
+
+  @Get('/average-user-province-dimension/:province/:user')
+  getAvgUserProvinceDimnesion(@Param('province') province: number,  @Param('user') user: number){
+    return this.answerService.getAverageUserProvinceAnswerDimension(province, user)
+  }
+
+  @Get('/average-user-city-dimension/:city/:user')
+  getAvgUserCityDimnesion(@Param('city') city: number,  @Param('user') user: number){
+    return this.answerService.getAverageUserCityAnswerDimension(city, user)
+  }
+
+  @Get('/lastAnswer/:user')
+  getLastAnswer(@Param('user') user: string){
+    return this.answerService.getLastUserAnswer(+user)
+  }
+
 }

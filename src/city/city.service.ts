@@ -17,7 +17,8 @@ export class CityService {
           id: id
         },select: {
           id: true,
-          name: true
+          name: true,
+          province_id: true
         }
       })
     } catch (error) {
