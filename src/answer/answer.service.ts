@@ -30,6 +30,7 @@ export class AnswerService {
   
 
   async create(createAnswerDto: CreateAnswerDto) {
+    console.log(createAnswerDto)
     const answerArray: number[] = createAnswerDto.answer.split(',').map(Number);
     console.log(answerArray)
 
@@ -157,10 +158,76 @@ export class AnswerService {
     }
   }
 
+  async getAverageProvinceDimension(province: number){
+    try{
+      let averageProvinceDimension = await this.prisma.$queryRaw`select avg(a.dimensi_1) as dim_1, avg(a.dimensi_2) as dim_2, avg(a.dimensi_3) as dim_3, avg(a.dimensi_4) as dim_4, avg(a.dimensi_5) as dim_5 from answers a JOIN cities c ON c.id = a.city_id JOIN provinces p ON p.id = c.province_id where p.id = ${province}`
+
+      return averageProvinceDimension
+    }catch(error){
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async getAverageCityDimension(city: number){
+    try{
+      let averageCityDimension = await this.prisma.$queryRaw`select avg(a.dimensi_1) as dim_1, avg(a.dimensi_2) as dim_2, avg(a.dimensi_3) as dim_3, avg(a.dimensi_4) as dim_4, avg(a.dimensi_5) as dim_5 from answers a JOIN cities c ON c.id = a.city_id where c.id = ${city}`
+
+      return averageCityDimension
+    }catch(error){
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async getAverageUserProvinceAnswerDimension(province: number, user_id: number){
+    try{
+      let averageUserProvinceDimension = await this.prisma.$queryRaw`select avg(a.dimensi_1) as dim_1, avg(a.dimensi_2) as dim_2, avg(a.dimensi_3) as dim_3, avg(a.dimensi_4) as dim_4, avg(a.dimensi_5) as dim_5 from answers a JOIN cities c ON c.id = a.city_id JOIN provinces p ON p.id = c.province_id where p.id = ${province} and a.user_id = ${user_id}`
+
+      return averageUserProvinceDimension
+    }catch(error){
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async getAverageUserCityAnswerDimension(city: number, user_id: number){
+    try{
+      let averageUserCityDimension = await this.prisma.$queryRaw`select avg(a.dimensi_1) as dim_1, avg(a.dimensi_2) as dim_2, avg(a.dimensi_3) as dim_3, avg(a.dimensi_4) as dim_4, avg(a.dimensi_5) as dim_5 from answers a JOIN cities c ON c.id = a.city_id where c.id = ${city} and a.user_id = ${user_id}`
+
+      return averageUserCityDimension
+    }catch(error){
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
+  async getLastUserAnswer(userId: number) {
+    try {
+      const latestAnswer = await this.prisma.answer.findFirst({
+        where: { user_id: userId },
+        orderBy: { createdAt: 'desc' },
+      });
+      return latestAnswer;
+    } catch (error) {
+      if(process.env.MODE == 'development'){
+        console.log(error)
+      }
+      return this.httpService.returnInternalServerError(this.tableName)
+    }
+  }
+
   async highestAverageProvince(){
     try {
       const average = await this.prisma.$queryRaw`SELECT AVG(answers.total) as avg, p.name FROM answers JOIN cities c ON c.id = answers.city_id JOIN provinces p ON p.id = c.province_id GROUP BY c.province_id  ORDER BY AVG(answers.total) desc LIMIT 5`
-
       return average
       
     } catch (error) {
